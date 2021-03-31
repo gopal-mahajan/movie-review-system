@@ -9,10 +9,16 @@ import java.util.Map;
 @Repository
 public class UserRepository {
 
-    public Map<String, User> users = new HashMap<>();
+    private Map<String, User> users = new HashMap<>();
 
     public void addUser(User user) {
+        System.out.println(user);
         users.put(user.getName(), user);
+
+    }
+
+    public User getUser(String userName) {
+        return users.get(userName);
     }
 
 }

@@ -9,9 +9,17 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     public void addUser(String name) {
         userRepository.addUser(new User(name));
+    }
+
+    public boolean userReviewedAlready(String userName, String movieName) {
+        return userRepository.getUser(userName).getMovieList().containsKey(movieName);
+    }
+
+    public User getUser(String userName) {
+        return userRepository.getUser(userName);
     }
 }

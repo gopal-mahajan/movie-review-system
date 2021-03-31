@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
+import java.util.Locale;
+
 
 @RestController("/movie")
 public class MovieController {
@@ -17,9 +18,9 @@ public class MovieController {
 
 
     @PostMapping("/addMovie")
-    public void AddMovie(@RequestParam("movie_name") String name, @RequestParam("movie_release_date") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate date,
+    public void AddMovie(@RequestParam("movie_name") String name, @RequestParam("movie_release_date")  int date,
                          @RequestParam("movie_gener") String gener) {
-        movieService.addMovie(name, date, gener);
+        movieService.addMovie(name.toUpperCase(), date, gener.toUpperCase());
 
     }
 

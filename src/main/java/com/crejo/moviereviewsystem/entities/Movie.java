@@ -2,13 +2,13 @@ package com.crejo.moviereviewsystem.entities;
 
 import com.crejo.moviereviewsystem.UserStatus;
 
-import java.time.LocalDate;
+
 
 public class Movie {
 
 
     private String name;
-    private LocalDate releaseDate;
+    private int releaseDate;
 
     private String genre;
     private float review;
@@ -16,7 +16,7 @@ public class Movie {
     private int noOfCriticReviews;
     private float critic_review;
 
-    public Movie(String name, LocalDate date, String genre) {
+    public Movie(String name, int date, String genre) {
         this.name = name;
         this.releaseDate = date;
         this.genre = genre;
@@ -24,9 +24,8 @@ public class Movie {
 
     public void addReview(User user, int review) {
         if (user.getStatus().equals(UserStatus.CRITIC)) {
-            this.critic_review = (this.critic_review * noOfCriticReviews + ((review)*2) * 1.0f / (++noOfCriticReviews));
-        }
-        else
+            this.critic_review = (this.critic_review * noOfCriticReviews + ((review) * 2) * 1.0f / (++noOfCriticReviews));
+        } else
             this.review = (this.review * noOfReviews + review) / (++noOfReviews);
     }
 
@@ -49,11 +48,11 @@ public class Movie {
         this.name = name;
     }
 
-    public LocalDate getReleaseDate() {
+    public int getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(LocalDate releaseDate) {
+    public void setReleaseDate(int releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -74,32 +73,8 @@ public class Movie {
     }
 
     public int getNoOfReviews() {
-        return noOfReviews;
+        return noOfReviews+noOfCriticReviews;
     }
-
-
-
-//    public void setMovieReview(User user, float review) {
-//        if (movieReview.isEmpty()) {
-//            movieReview = new HashMap<>();
-//            movieReview.put(user, review);
-//        } else {
-//            movieReview.put(user, review);
-//
-//        }
-//    }
-//
-//    public float getMovieReview() throws MovieNotReviewed {
-//        if (movieReview.isEmpty()) {
-//            throw new MovieNotReviewed("Movie not reviewed yet!");
-//        } else {
-//            int sum=0;
-//            for (Map.Entry<User, Float> moviereview : movieReview.entrySet()) {
-//                sum+=moviereview.getValue();
-//            }
-//            return sum/movieReview.size();
-//        }
-//    }
 
 
 }

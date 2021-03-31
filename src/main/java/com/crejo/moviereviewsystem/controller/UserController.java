@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Locale;
+
 @RestController("/user")
 public class UserController {
 
@@ -15,7 +17,7 @@ public class UserController {
 
     @PostMapping("/addUser")
     void addUser(@RequestParam("user_name") String name){
-        userService.addUser(name);
+        userService.addUser(name.toUpperCase());
 
     }
 

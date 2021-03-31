@@ -1,14 +1,17 @@
 package com.crejo.moviereviewsystem.entities;
 
 import com.crejo.moviereviewsystem.UserStatus;
+import lombok.ToString;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
+@ToString
 public class User {
+    private final Map<String, Integer> movieList = new HashMap<>();
     private String name;
     private int reviewCount = 0;
     private UserStatus status = UserStatus.VIEWER;
-    private Map<String, Integer> movieList=new HashMap<>();;
 
     public User(String name) {
         this.name = name;
@@ -42,14 +45,8 @@ public class User {
         return movieList;
     }
 
-    public void setMovieList(String name,int review) {
-        if(movieList.isEmpty())
-        {
-
-            movieList.put(name,review);
-        }
-        else{
-            movieList.put(name,review);
-        }
+    public void setMovieList(String name, int review) {
+        movieList.put(name, review);
     }
+
 }

@@ -1,39 +1,39 @@
 package com.crejo.moviereviewsystem.repository;
 
+import com.crejo.moviereviewsystem.entities.Movie;
 import com.crejo.moviereviewsystem.exception.MovieNotReviewedException;
 import com.crejo.moviereviewsystem.exception.NotAvailableException;
+import com.crejo.moviereviewsystem.service.MovieService;
+import com.crejo.moviereviewsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static java.util.stream.Collectors.toMap;
 
 @Repository
 public class ReviewRepository {
 
-    @Autowired
-    MovieRepository movieRepository;
-    @Autowired
-    UserRepository userRepository;
-
     public Map<String, Float> getReviewByYear;
+    @Autowired
+    MovieService movieService;
+    @Autowired
+    UserService userService;
 
     public Map<String, Float> getReviewByYear(int year) {
-        getReviewByYear = new HashMap<>();
-        for (String movieName : movieRepository.yearMovieMap.get(year)) {
-            getReviewByYear.put(movieName, movieRepository.movieMap.get(movieName).getReview());
-        }
-        return getReviewByYear;
+        return movieService.getReviewByYear(year);
     }
 
     public String getReview(String movieName) throws MovieNotReviewedException {
-        if (movieRepository.movieMap.get(movieName).getNoOfReviews() == 0) {
+        Movie movie = movieService.getMovie(movieName);
+        if (movie.getNoOfReviews() == 0) {
             throw new MovieNotReviewedException("Movie not reviewed yet!");
         } else
-            return "Average rating for " + movieRepository.movieMap.get(movieName) + " is " +
-                    movieRepository.movieMap.get(movieName).getReview() + " and critic rating is "
-                    + movieRepository.movieMap.get(movieName).getCritic_review();
+            return "Average rating for " + movieName + " is " + movie.getReview() + " and critic rating is " + movie.getCritic_review();
 
     }
 
@@ -41,8 +41,8 @@ public class ReviewRepository {
         HashMap<String, Float> criticReview = new HashMap<>();
         HashMap<String, Float> criticReview1 = new HashMap<>();
 
-        for (String movieName : movieRepository.generMovieMap.get(gener)) {
-            criticReview.put(movieName, movieRepository.movieMap.get(movieName).getCritic_review());
+        for (Movie movie : movieService.getReviewByGener(gener)) {
+            criticReview.put(movie.getName(), movie.getCritic_review());
         }
         if (criticReview.size() < n)
             throw new NotAvailableException("Required number of movies not available");
@@ -54,10 +54,10 @@ public class ReviewRepository {
             int i = 0;
             for (Map.Entry<String, Float> entry : criticReview.entrySet()) {
 
-                    criticReview1.put(entry.getKey(), entry.getValue());
-                    i++;
+                criticReview1.put(entry.getKey(), entry.getValue());
+                i++;
 
-                if(i==n)
+                if (i == n)
                     break;
             }
         }
