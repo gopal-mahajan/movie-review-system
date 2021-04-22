@@ -17,6 +17,7 @@ public class Movie {
     private float critic_review;
 
     public Movie(String name, int date, String genre) {
+
         this.name = name;
         this.releaseDate = date;
         this.genre = genre;
@@ -51,6 +52,8 @@ public class Movie {
     public int getReleaseDate() {
         return releaseDate;
     }
+
+
 
     public void setReleaseDate(int releaseDate) {
         this.releaseDate = releaseDate;
